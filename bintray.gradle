@@ -12,7 +12,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'ImagePicker For Android'     // 项目描述
+                name 'locationUtil For Android'     // 项目描述
                 url siteUrl
                 licenses {
                     license {
