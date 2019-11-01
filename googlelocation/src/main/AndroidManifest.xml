@@ -2,7 +2,7 @@
     package="com.mrtan.googlelocation" >
     <application>
         <provider
-            android:authorities="com.mrtan.googlelocation.locationProvider"
+            android:authorities="${applicationId}.locationProvider"
             android:name=".LocationProvider"
             android:exported="false"
             />
