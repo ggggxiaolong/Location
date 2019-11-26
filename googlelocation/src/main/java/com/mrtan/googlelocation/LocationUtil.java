@@ -14,30 +14,29 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public final class LocationUtil {
     private static Location location;
     private static FusedLocationProviderClient client;
-    public static OnSuccessListener<Location> listener;
-
+    private static OnSuccessListener<Location> onSuccessListener = new OnSuccessListener<Location>() {
+        @Override
+        public void onSuccess(Location l) {
+            location = l;
+        }
+    };
     private LocationUtil() {
     }
+    private static Context mContext;
 
     public static void init(Context context) {
+        mContext = context;
         client = LocationServices.getFusedLocationProviderClient(context);
-        if (PermissionChecker.PERMISSION_GRANTED ==
-                PermissionChecker.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-        ) {
-            start();
-        }
+        start();
     }
 
     public static void start() {
-        client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location l) {
-                location = l;
-                if (listener != null){
-                    listener.onSuccess(l);
-                }
-            }
-        });
+        if (PermissionChecker.PERMISSION_GRANTED ==
+                PermissionChecker.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+        ) {
+            location = null;
+            client.getLastLocation().addOnSuccessListener(onSuccessListener);
+        }
     }
 
     @Nullable
